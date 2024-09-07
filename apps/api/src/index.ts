@@ -40,8 +40,8 @@ const cacheable = new CacheableLookup({
 cacheable.install(http.globalAgent);
 cacheable.install(https.globalAgent)
 
-if (cluster.isMaster) {
-  Logger.info(`Master ${process.pid} is running`);
+if (cluster.isPrimary) {
+  Logger.info(`Primary process ${process.pid} is running`);
 
   // Fork workers.
   for (let i = 0; i < numCPUs; i++) {
