@@ -80,6 +80,7 @@ export async function scrapWithPlaywright(
         logParams.html = html;
         logParams.response_code = data.pageStatusCode;
         logParams.error_message = data.pageError;
+        Logger.debug(`⛏️ Playwright: Successfully fetched url: ${url}`);
         return {
           content: html ?? "",
           pageStatusCode: data.pageStatusCode,

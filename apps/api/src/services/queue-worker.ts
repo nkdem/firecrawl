@@ -39,8 +39,6 @@ import {
 } from "../../src/lib/job-priority";
 import { PlanType } from "../types";
 import { getJobs } from "../../src/controllers/v1/crawl-status";
-import { configDotenv } from "dotenv";
-configDotenv();
 
 if (process.env.ENV === "production") {
   initSDK({
@@ -80,7 +78,7 @@ const processJobInternal = async (token: string, job: Job) => {
       } else {
         await job.moveToCompleted(result.docs, token, false);
       }
-    } catch (e) {}
+    } catch (e) { }
   } catch (error) {
     console.log("Job failed, error:", error);
     Sentry.captureException(error);
@@ -351,7 +349,7 @@ async function processJob(job: Job, token: string) {
       }
 
       if (await finishCrawl(job.data.crawl_id)) {
-        
+
 
         if (!job.data.v1) {
           const jobIDs = await getCrawlJobs(job.data.crawl_id);
@@ -425,8 +423,8 @@ async function processJob(job: Job, token: string) {
               job.data.webhook,
               job.data.v1,
               "crawl.completed"
-              );
-            }
+            );
+          }
 
           await logJob({
             job_id: job.data.crawl_id,
@@ -513,7 +511,7 @@ async function processJob(job: Job, token: string) {
           typeof error === "string"
             ? error
             : error.message ??
-              "Something went wrong... Contact help@mendable.ai",
+            "Something went wrong... Contact help@mendable.ai",
         num_docs: 0,
         docs: [],
         time_taken: 0,
@@ -535,7 +533,7 @@ async function processJob(job: Job, token: string) {
           typeof error === "string"
             ? error
             : error.message ??
-              "Something went wrong... Contact help@mendable.ai",
+            "Something went wrong... Contact help@mendable.ai",
         num_docs: 0,
         docs: [],
         time_taken: 0,

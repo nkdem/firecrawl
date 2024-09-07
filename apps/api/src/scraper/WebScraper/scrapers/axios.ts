@@ -10,7 +10,7 @@ import { Logger } from "../../../lib/logger";
  * @param pageOptions The options for the page
  * @returns The scraped content
  */
-export async function scrapWithFetch(
+export async function scrapWithAxios(
   url: string,
   pageOptions: { parsePDF?: boolean } = { parsePDF: true }
 ): Promise<{ content: string; pageStatusCode?: number; pageError?: string }> {

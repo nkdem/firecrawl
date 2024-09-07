@@ -12,7 +12,7 @@ import { urlSpecificParams } from "./utils/custom/website_params";
 import { fetchAndProcessPdf } from "./utils/pdfProcessor";
 import { handleCustomScraping } from "./custom/handleCustomScraping";
 import { removeUnwantedElements } from "./utils/removeUnwantedElements";
-import { scrapWithFetch } from "./scrapers/fetch";
+import { scrapWithAxios } from "./scrapers/axios";
 import { scrapWithFireEngine } from "./scrapers/fireEngine";
 import { scrapWithPlaywright } from "./scrapers/playwright";
 import { scrapWithScrapingBee } from "./scrapers/scrapingBee";
@@ -81,7 +81,7 @@ function getScrapingFallbackOrder(
       case "fire-engine":
         return !!process.env.FIRE_ENGINE_BETA_URL;
       case "fire-engine;chrome-cdp":
-        return !!process.env.FIRE_ENGINE_BETA_URL;  
+        return !!process.env.FIRE_ENGINE_BETA_URL;
       case "playwright":
         return !!process.env.PLAYWRIGHT_MICROSERVICE_URL;
       default:
@@ -119,7 +119,7 @@ function getScrapingFallbackOrder(
   );
 
   const scrapersInOrder = Array.from(uniqueScrapers);
-  return scrapersInOrder as (typeof baseScrapers)[number][];
+  return scrapersInOrder
 }
 
 
@@ -169,7 +169,7 @@ export async function scrapSingleUrl(
     url: string,
     method: (typeof baseScrapers)[number]
   ) => {
-    let scraperResponse: {
+    const scraperResponse: {
       text: string;
       screenshot: string;
       metadata: { pageStatusCode?: number; pageError?: string | null };
@@ -187,7 +187,7 @@ export async function scrapSingleUrl(
 
     switch (method) {
       case "fire-engine":
-      case "fire-engine;chrome-cdp":  
+      case "fire-engine;chrome-cdp":
 
         let engine: "playwright" | "chrome-cdp" | "tlsclient" = "playwright";
         if (method === "fire-engine;chrome-cdp") {
@@ -248,8 +248,8 @@ export async function scrapSingleUrl(
           scraperResponse.metadata.pageError = response.pageError;
         }
         break;
-      case "fetch":
-        const response = await scrapWithFetch(url);
+      case "axios":
+        const response = await scrapWithAxios(url);
         scraperResponse.text = response.content;
         scraperResponse.metadata.pageStatusCode = response.pageStatusCode;
         scraperResponse.metadata.pageError = response.pageError;
@@ -336,12 +336,7 @@ export async function scrapSingleUrl(
       Logger.error(`Invalid URL key, trying: ${urlToScrap}`);
     }
     const defaultScraper = urlSpecificParams[urlKey]?.defaultScraper ?? "";
-    const scrapersInOrder = getScrapingFallbackOrder(
-      defaultScraper,
-      pageOptions && pageOptions.waitFor && pageOptions.waitFor > 0,
-      pageOptions && (pageOptions.screenshot || pageOptions.fullPageScreenshot) && (pageOptions.screenshot === true || pageOptions.fullPageScreenshot === true),
-      pageOptions && pageOptions.headers && pageOptions.headers !== undefined
-    );
+    const scrapersInOrder = ["axios", "playwright", "scrapingBee", "scrapingBeeLoad"]
 
     for (const scraper of scrapersInOrder) {
       // If exists text coming from crawler, use it
