@@ -1,4 +1,7 @@
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config({
+  path: ['.env.local', '.env']
+})
 import "./sentry";
 import * as Sentry from "@sentry/node";
 import { CustomError } from "../lib/custom-error";

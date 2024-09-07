@@ -5,7 +5,9 @@ import dotenv from 'dotenv';
 import randomUseragent from 'random-useragent';
 import { getError } from './helpers/get_error';
 
-dotenv.config();
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 
 const app = express();
 const port = process.env.PORT || 3003;

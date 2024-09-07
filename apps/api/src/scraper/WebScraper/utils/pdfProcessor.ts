@@ -9,7 +9,9 @@ import os from "os";
 import { axiosTimeout } from "../../../lib/timeout";
 import { Logger } from "../../../lib/logger";
 
-dotenv.config();
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 
 export async function fetchAndProcessPdf(url: string, parsePDF: boolean): Promise<{ content: string, pageStatusCode?: number, pageError?: string }> {
   try {

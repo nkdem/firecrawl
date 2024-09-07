@@ -2,7 +2,10 @@ import { ExtractorOptions } from "./../../lib/entities";
 import { supabase_service } from "../supabase";
 import { FirecrawlJob } from "../../types";
 import { posthog } from "../posthog";
-import "dotenv/config";
+import * as dotenv from "dotenv"
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 import { Logger } from "../../lib/logger";
 import { configDotenv } from "dotenv";
 configDotenv();

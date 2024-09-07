@@ -1,4 +1,7 @@
-import "dotenv/config";
+import * as dotenv from "dotenv"
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 import { ScrapeLog } from "../../types";
 import { supabase_service } from "../supabase";
 import { PageOptions } from "../../lib/entities";

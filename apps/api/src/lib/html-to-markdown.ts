@@ -6,7 +6,9 @@ import * as Sentry from "@sentry/node";
 
 import dotenv from 'dotenv';
 import { Logger } from './logger';
-dotenv.config();
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 
 // TODO: add a timeout to the Go parser
 

@@ -1,13 +1,14 @@
 import request from "supertest";
-import dotenv from "dotenv";
 import { WebsiteScrapeError } from "../utils/types";
 import { logErrors } from "../utils/log";
 
 import websitesData from "../data/crawl.json";
-import "dotenv/config";
+import * as dotenv from "dotenv"
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 
 import fs from 'fs';
-dotenv.config();
 
 interface WebsiteData {
   website: string;

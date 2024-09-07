@@ -1,5 +1,8 @@
 import { Logtail } from "@logtail/node";
-import "dotenv/config";
+import * as dotenv from "dotenv"
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 import { Logger } from "../lib/logger";
 
 // A mock Logtail class to handle cases where LOGTAIL_KEY is not provided

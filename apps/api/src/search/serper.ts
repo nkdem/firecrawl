@@ -2,7 +2,9 @@ import axios from "axios";
 import dotenv from "dotenv";
 import { SearchResult } from "../../src/lib/entities";
 
-dotenv.config();
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 
 export async function serper_search(q, options: {
     tbs?: string;

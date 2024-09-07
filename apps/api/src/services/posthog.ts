@@ -1,5 +1,8 @@
 import { PostHog } from 'posthog-node';
-import "dotenv/config";
+import * as dotenv from "dotenv"
+dotenv.config({
+  path: ['.env.local', '.env']
+});
 import { Logger } from '../../src/lib/logger';
 
 export default function PostHogClient() {
